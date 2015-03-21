@@ -11,6 +11,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'		" let Vundle manage Vundle, required
 
 "---------=== Code/project navigation ===-------------
+Plugin 'ervandew/supertab'
 Plugin 'dimasg/vim-mark'
 Plugin 'szw/vim-ctrlspace'
 Plugin 'Lokaltog/vim-easymotion'
@@ -43,9 +44,9 @@ Plugin 'gkz/vim-ls'
 Plugin 'wavded/vim-stylus'
 
 " --- Python ---
-Plugin 'klen/python-mode'	        " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-" Plugin 'davidhalter/jedi-vim' 		" Jedi-vim autocomplete plugin
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'klen/python-mode'	        " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
+Plugin 'davidhalter/jedi-vim' 		" Jedi-vim autocomplete plugin
+" Plugin 'Valloric/YouCompleteMe'
 Plugin 'mitsuhiko/vim-jinja'		" Jinja support for vim
 Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 Plugin 'scrooloose/syntastic'           " Online syntax check
@@ -64,6 +65,15 @@ filetype plugin indent on
 "=====================================================
 " General settings
 "=====================================================
+if version >= 700
+    set history=64
+    set undolevels=128
+    set undodir=~/.vim/undodir/
+    set undofile
+    set undolevels=1000
+    set undoreload=10000
+endif
+
 set backspace=indent,eol,start
 " This must happen before the syntax system is enabled
 let no_buffers_menu=1
@@ -196,15 +206,18 @@ if version >= 700
 endif
 
 " Highlight characters past column 80
-augroup vimrc_autocmds
-    autocmd!
-    autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-    autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-    autocmd FileType ruby,python,javascript,c,cpp set nowrap
-augroup END
+"augroup vimrc_autocmds
+"    autocmd!
+"    autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
+"    autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
+"    autocmd FileType ruby,python,javascript,c,cpp set nowrap
+"augroup END
 
 " SnipMate settings
 let g:snippets_dir = "~/.vim/vim-snippets/snippets"
+
+" CTRL-P ignore path
+let g:ctrlp_custom_ignore = 'venv'
 
 " Vim-Airline settings
 set laststatus=2
@@ -288,7 +301,7 @@ nmap <S-F3> :tabnew<Space>
 map <F9> :TagbarToggle<CR>
 
 nnoremap <M-x> <C-a>
-map <C-A> :grep! --include=\*\[a-zA-Z\] --exclude=\*.html -r <C-R>=expand("<cword>")<CR> .<CR>:copen<CR>
+map <C-A> :grep! --include=\*\[a-zA-Z\] --exclude=\*.html -r '<C-R>=expand("<cword>")<CR>' .<CR>:copen<CR>
 
 " MiniBufExplorer settings
 map <C-q> :bd<CR> 	   " close current buffer
@@ -317,17 +330,17 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_doc = 0
 let g:pymode_doc_key = 'K'
 "Linting
-let g:pymode_lint = 1
+let g:pymode_lint = 0
 let g:pymode_lint_checker = "pyflakes,pep8"
 let g:pymode_lint_ignore="E501,W601,C0110"
 " Auto check on save
-let g:pymode_lint_write = 1
+let g:pymode_lint_write = 0
 
 " Support virtualenv
 let g:pymode_virtualenv = 1
 
 " Enable breakpoints plugin
-let g:pymode_breakpoint = 1
+let g:pymode_breakpoint = 0
 let g:pymode_breakpoint_key = '<leader>b'
 
 " Syntax highlighting
@@ -368,7 +381,7 @@ nnoremap <F8> :exe "ConqueTermSplit ipython " . expand("%")<CR>
 let g:ConqueTerm_StartMessages = 0
 let g:ConqueTerm_CloseOnEnd = 0
 " Python code check on PEP8
-autocmd FileType python map <buffer> <leader>8 :PymodeLint<CR>
+"autocmd FileType python map <buffer> <leader>8 :PymodeLint<CR>
 
 " Activate autocomplete at <Ctrl+Space>
 inoremap <C-space> <C-x><C-o>
@@ -394,6 +407,8 @@ autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 " --- Python ---
 autocmd FileType python set completeopt-=preview " its need for jedi-vim
+"au FileType python set completeopt=menuone,longest,preview
+
 autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4
 \ formatoptions+=croq softtabstop=4 smartindent
 \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
@@ -420,7 +435,7 @@ autocmd BufNewFile,BufRead *.jade setlocal ft=jade
 autocmd BufNewFile,BufRead *.ls setlocal ft=ls
 autocmd BufNewFile,BufRead *.styl setlocal ft=stylus
 autocmd BufNewFile,BufRead *.py_tmpl setlocal ft=python
-autocmd BufNewFile,BufRead *.html,*.htm call s:SelectHTML()
+"autocmd BufNewFile,BufRead *.html,*.htm call s:SelectHTML()
 let html_no_rendering=1
 let g:closetag_default_xml=1
 let g:sparkupNextMapping='<c-l>'
