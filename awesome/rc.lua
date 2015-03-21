@@ -20,11 +20,14 @@ do
   local cmds =
   {
     "clipit",
+    --"joxi",
     "batterymon -t chuda",
-    "setxkbmap -option grp:switch,grp:caps_toggle,grp_led:caps us,ru &",
+    --moved to .xinitrc
+    --"setxkbmap -option grp:switch,grp:caps_toggle,grp_led:caps us,ru &",
     "fbxkb",
     "nm-applet --sm-disable",
-    "joxi",
+    "gvim",
+    "skype-poll",
     "pasystray",
     --"gksu 'wicd-client --tray'",
     --and so on...
@@ -353,14 +356,15 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end),
 
     -- My Defines
+    awful.key({ "Ctrl", "Shift" }, "a",           function () awful.util.spawn_with_shell("/usr/bin/gyazo") end),
     awful.key({ modkey,         }, "F12",           function () awful.util.spawn_with_shell("sakura -x ncmpcpp") end),
     awful.key({                 }, "XF86PowerOff",  function () awful.util.spawn("exitmenu") end),
     awful.key({                 }, "XF86AudioMute", function () awful.util.spawn("amixer --quiet set 'Master' toggle") end),
     awful.key({                 }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer --quiet set 'Master' 2-") end),
     awful.key({                 }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer --quiet set 'Master' 2+") end),
-    awful.key({                 }, "Print",          function () awful.util.spawn("scrot '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
-    awful.key({ "Ctrl"          }, "Print",          function () awful.util.spawn("scrot -d 5 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
-    awful.key({ modkey,         }, "Print",          function () awful.util.spawn("scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
+    --awful.key({                 }, "Print",          function () awful.util.spawn("scrot '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
+    --awful.key({ "Ctrl"          }, "Print",          function () awful.util.spawn("scrot -d 5 '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
+    --awful.key({ modkey,         }, "Print",          function () awful.util.spawn("scrot -s '%Y-%m-%d--%s_$wx$h_scrot.png' -e 'mv $f ~/images/ && gpicview ~/images/$f'") end),
     awful.key({ modkey,         }, "F11",            function ()
                                                         mpc_random()
                                                      end),
