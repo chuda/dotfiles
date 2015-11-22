@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+ZSH=/usr/share/oh-my-zsh/
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -8,6 +8,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 ZSH_THEME="bira-chu"
 ZSH_THEME="ys"
+ZSH_THEME="powerline"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -72,4 +73,9 @@ alias gsh='gsh --password-file=/home/chuda/bin/gsh_pass '
 alias ls='ls --group-directories-first --color'
 ulimit -c unlimited
 eval `ssh-agent -s`
-`ssh-add ~/.ssh/* 2>/dev/null`
+`ssh-add ~/.ssh/*id* 2>/dev/null`
+set ZSH_CACHE_DIR="/tmp/zsh_cache"
+export EDITOR=vim
+
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

@@ -11,7 +11,6 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'		" let Vundle manage Vundle, required
 
 "---------=== Code/project navigation ===-------------
-Plugin 'alvan/vim-closetag'
 Plugin 'tomasr/molokai'
 Plugin 'ervandew/supertab'
 Plugin 'dimasg/vim-mark'
@@ -48,10 +47,10 @@ Plugin 'wavded/vim-stylus'
 " --- Python ---
 " Plugin 'klen/python-mode'	        " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
 Plugin 'davidhalter/jedi-vim' 		" Jedi-vim autocomplete plugin
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'mitsuhiko/vim-jinja'		" Jinja support for vim
+" Plugin 'Valloric/YouCompleteMe'
+Plugin 'mitsuhiko/vim-jinja'		" Jinja support for vim
 Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
-"Plugin 'scrooloose/syntastic'           " Online syntax check
+Plugin 'scrooloose/syntastic'           " Online syntax check
 
 "" HTML Bundle
 Plugin 'amirh/HTML-AutoCloseTag'
@@ -110,7 +109,6 @@ if has("gui_running")
     "set guifont=Consolas:h13
     "set guifont=Droid\ Sans\ Mono\ 11
     set guifont=Inconsolata\ for\ Powerline:h15
-    set guifont=Droid\ Sans\ Mono\ for\ Powerline:h13
     set fuoptions=maxvert,maxhorz
   " does not work properly on os x
   " au GUIEnter * set fullscreen
@@ -223,7 +221,6 @@ let g:snippets_dir = "~/.vim/vim-snippets/snippets"
 
 " CTRL-P ignore path
 let g:ctrlp_custom_ignore = 'venv'
-let g:ctrlp_custom_ignore = 'venv26'
 
 " Vim-Airline settings
 set laststatus=2
@@ -364,9 +361,8 @@ let g:pymode_run = 0
 "=====================================================
 " Jedi-vim
 "=====================================================
-" Disable choose first function/method at autocomplete"let g:jedi#popup_select_first = 0
-let g:jedi#popup_select_first = 0
-
+" Disable choose first function/method at autocomplete
+"let g:jedi#popup_select_first = 0
 
 " Bind <Alt+Up/Down> keys for splitting tabs
 nnoremap <M-Up> <C-w>v		" split window horizontally
@@ -392,10 +388,9 @@ let g:ConqueTerm_CloseOnEnd = 0
 
 " Activate autocomplete at <Ctrl+Space>
 inoremap <C-space> <C-x><C-o>
-noremap <M-space> :CtrlSpace<CR>
 
 " Easy switching languages
-"nnoremap <leader>Th :set ft=htmljinja<CR>
+nnoremap <leader>Th :set ft=htmljinja<CR>
 nnoremap <leader>Tp :set ft=python<CR>
 nnoremap <leader>Tj :set ft=javascript<CR>
 nnoremap <leader>Tr :set ft=rst<CR>
@@ -435,8 +430,7 @@ autocmd BufNewFile,BufRead *.json setlocal ft=javascript
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 
 " --- template language support (SGML / XML too) ---
-"autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType html,xhtml,xml,htmldjango setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd bufnewfile,bufread *.rhtml setlocal ft=eruby
 autocmd BufNewFile,BufRead *.mako setlocal ft=mako
 autocmd BufNewFile,BufRead *.tmpl setlocal ft=htmljinja
@@ -449,7 +443,7 @@ let html_no_rendering=1
 let g:closetag_default_xml=1
 let g:sparkupNextMapping='<c-l>'
 autocmd FileType html,htmldjango,htmljinja,eruby,mako let b:closetag_html_style=1
-"autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako source ~/.vim/scripts/closetag.vim
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako source ~/.vim/scripts/closetag.vim
 
 " --- CSS ---
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
@@ -495,26 +489,4 @@ while n < 50 && n < line("$")
   set ft=html
 endfun
 
-" Function to activate a virtualenv in the embedded interpreter for
-" omnicomplete and other things like that.
-function LoadVirtualEnv(path)
-    let activate_this = a:path . '/bin/activate_this.py'
-    if getftype(a:path) == "dir" && filereadable(activate_this)
-        python << EOF
-import vim
-activate_this = vim.eval('l:activate_this')
-execfile(activate_this, dict(__file__=activate_this))
-EOF
-    endif
-endfunction
 
-" Load up a 'stable' virtualenv if one exists in ~/.virtualenv
-let defaultvirtualenv = $HOME . "/.virtualenvs/stable"
-
-" Only attempt to load this virtualenv if the defaultvirtualenv
-" actually exists, and we aren't running with a virtualenv active.
-if has("python")
-    if empty($VIRTUAL_ENV) && getftype(defaultvirtualenv) == "dir"
-        call LoadVirtualEnv(defaultvirtualenv)
-    endif
-endif
