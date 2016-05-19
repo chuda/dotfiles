@@ -524,3 +524,8 @@ if has("python")
         call LoadVirtualEnv(defaultvirtualenv)
     endif
 endif
+
+set noeol
+set nobackup
+set nowritebackup
+
