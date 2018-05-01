@@ -1,0 +1,26 @@
+#!/bin/bash
+
+parent=""
+if [ $# -eq 2 ]; then 
+    parent="--no-parent -w -1"
+elif [ $# -ne 1 ]; then
+    echo "Usage: $0 <url>";
+    exit 1;
+fi
+
+url=$1
+domain=`echo $url | awk -F '/' '{ print $3 }'`
+
+echo "url=$url"
+echo "domain=$domain"
+
+wget -N \
+         --recursive \
+         --no-clobber \
+         --page-requisites \
+         --convert-links \
+         --restrict-file-names=windows \
+         --domains $domain \   -e robots=off  $parent \
+         $url
+         #-N \
+         #--html-extension \
